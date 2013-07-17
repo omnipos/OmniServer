@@ -1,0 +1,11 @@
+{
+     "name": "our_chat",
+     "description": "example chat application with socket.io",
+     "version": "0.0.1",
+     "dependencies": {
+        "express": "latest",
+        "socket.io": "latest",
+	"cookie":"latest",
+	"connect":"latest"
+     }
+}
