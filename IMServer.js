@@ -2,6 +2,7 @@ var mongo = require('mongodb');
 var ses
 var Server,Db,BSON;
 var sessionMgm = require("./sessionManagement");
+var OmniSchema = require("./SetupData/ModelSchemas");
 // http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 
 
@@ -14,9 +15,15 @@ function IMServer(ioserver){
 	// usernames which are currently connected to the chat
 	this.usernames = {};
 	this.allSockets = {};
-	
-	var server = new Server('localhost', 27017, {auto_reconnect: true,w:1});
-	this.db = new Db('omnidb', server);
+	this.schema = new OmniSchema();
+	mongoose.connect('mongodb://localhost:27017/omnidb');
+	// var server = new Server('localhost', 27017, {auto_reconnect: true,w:1});
+	this.db = mongoose.connection;
+	this.db.on("error",console.error.bind(console,"connection error"));
+	this.db.once("open",function(){
+		console.log("connected");
+	});
+	// new Db('omnidb', server);
 	var that = this;
 	this.shutdown = function(){
 		that.db.close();

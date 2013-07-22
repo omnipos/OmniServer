@@ -2,7 +2,7 @@
 "CookingOptions":[
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "cookingOpId":"032964",
 "cookingOpName":"Nutella",
@@ -12,7 +12,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "cookingOpId":"109289",
 "cookingOpName":"5 Berry Jam",
@@ -22,7 +22,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "cookingOpId":"137326",
 "cookingOpName":"Fried Egg",
@@ -32,7 +32,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "cookingOpId":"529666",
 "cookingOpName":"Crunchy Peanut Butter",
@@ -42,7 +42,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "cookingOpId":"578517",
 "cookingOpName":"Poached Egg",
@@ -52,7 +52,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "cookingOpId":"675199",
 "cookingOpName":"3 Fruit Marmalade ",
@@ -62,7 +62,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "cookingOpId":"691302",
 "cookingOpName":"Vegemite",
@@ -72,7 +72,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "cookingOpId":"932804",
 "cookingOpName":"Scrambled Egg",
@@ -80,11 +80,11 @@
 "sortOrder":"0",
 "products":[]
 }
-]
+],
 "Course":[
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:42:02 +0000",
 "courseId":"81962696_345724",
 "courseName":"STARTER",
@@ -92,17 +92,17 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:42:10 +0000",
 "courseId":"9196269D_152374",
 "courseName":"MAINS",
 "sortOrder":"1"
 }
-]
+],
 "Customer":[
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "address":"address",
 "customerId":"201079",
@@ -113,88 +113,82 @@
 "phone":"",
 "reservations":[]
 }
-]
-
+],
 "Kitchen":[
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "kitchenID":"925367",
 "kitchenName":"KV1",
-"products":["428805","718054","779493","533975","617501","830732","660936","900247","823856","039428","845051","731647","243307","581883","208098","778099","657557","004365","672356","763757","904681","753501"],
+"products":["581883","533975","004365","778099","823856","660936","845051","617501","208098","779493","731647","718054","039428","763757","904681","243307","830732","428805","900247","657557","672356","753501"],
 "users":["76612909_643696"]
 }
-]
-
+],
 "Menu":[
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "menuID":"955699",
 "menuName":"ALL DAY",
 "menuName2":"",
 "sortOrder":"0",
-"submenus":["163877","583351","965090","256856","287223","910652","993103"]
+"submenus":["256856","287223","163877","910652","993103","583351","965090"]
 }
-]
+],
 "Note":[
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:42:28 +0000",
 "noteId":"41962690_749098",
 "noteName":"Extra Plates"
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:42:22 +0000",
 "noteId":"5196269E_225281",
 "noteName":"Water Bottle"
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:42:40 +0000",
 "noteId":"A1962692_642934",
 "noteName":"Add Salt"
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:43:10 +0000",
 "noteId":"D1962699_118841",
 "noteName":"Spicy"
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:42:53 +0000",
 "noteId":"F1962697_549358",
 "noteName":"Tissue Paper"
 }
-]
-
-
-
+],
 "PosDevice":[
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:03:26 +0000",
 "attachedPrinterId":"197541",
 "attachedPrinterName":"RECEIPT PRINTER",
 "deviceName":"PAD1",
 "posDeviceId":"31962699_260985"
 }
-]
-
+],
 "Printer":[
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "cashDrawerAmount":"0",
 "cashDrawerType":"",
@@ -203,15 +197,15 @@
 "printerIP":"192.168.1.10",
 "printerName":"KITCHEN PRINT",
 "printerType":"Default",
-"reroutePrinterID":"",
-"reroutePrinterIP":"",
+"reroutePrinterID":"(null)",
+"reroutePrinterIP":"(null)",
 "shouldReroute":"0",
 "triggerCashdrawer":"0",
-"products":["718054","581883","660936","243307","779493","672356","617501","731647","830732","039428","753501","904681","657557","004365","778099","533975","208098"]
+"products":["617501","779493","243307","830732","718054","672356","660936","581883","208098","731647","778099","039428","904681","753501","657557","004365","533975"]
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "cashDrawerAmount":"0",
 "cashDrawerType":"",
@@ -220,15 +214,15 @@
 "printerIP":"192.168.1.10",
 "printerName":"RECEIPT PRINTER",
 "printerType":"Payment",
-"reroutePrinterID":"",
-"reroutePrinterIP":"",
+"reroutePrinterID":"(null)",
+"reroutePrinterIP":"(null)",
 "shouldReroute":"0",
 "triggerCashdrawer":"1",
 "products":[]
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "cashDrawerAmount":"0",
 "cashDrawerType":"",
@@ -237,17 +231,17 @@
 "printerIP":"192.168.1.10",
 "printerName":"DRINK PRINT",
 "printerType":"Default",
-"reroutePrinterID":"",
-"reroutePrinterIP":"",
+"reroutePrinterID":"(null)",
+"reroutePrinterIP":"(null)",
 "shouldReroute":"0",
 "triggerCashdrawer":"0",
-"products":["823856","428805","845051","763757","900247"]
+"products":["763757","428805","845051","900247","823856"]
 }
-]
+],
 "Product":[
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -283,7 +277,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -319,7 +313,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -355,7 +349,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -391,7 +385,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -427,7 +421,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -463,7 +457,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -499,7 +493,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -535,7 +529,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -571,7 +565,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -607,7 +601,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -643,7 +637,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -679,7 +673,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -715,7 +709,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -751,7 +745,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -787,7 +781,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -823,7 +817,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -859,7 +853,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -895,7 +889,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -931,7 +925,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -967,7 +961,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -1003,7 +997,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "canChangePrice":"0",
 "color":"",
@@ -1030,18 +1024,18 @@
 "tax_4":"0",
 "tax_5":"0",
 "kitchen":["925367"],
-"cookingOptions":["109289","675199","691302","032964","529666"],
+"cookingOptions":["032964","109289","675199","691302","529666"],
 "printers":["147516"],
-"productOptions":["876015","707811","321517"],
+"productOptions":["321517","876015","707811"],
 "sideDishes":[],
 "submenus":["287223"],
-"toppings":["158992","151736","905722","226717","236337","278700"]
+"toppings":["151736","226717","905722","236337","278700","158992"]
 }
-]
+],
 "ProductOptions":[
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"0",
 "price":"0",
@@ -1060,7 +1054,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"1",
 "price":"0.5",
@@ -1079,7 +1073,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"0",
 "price":"0",
@@ -1098,7 +1092,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"1",
 "price":"0.7",
@@ -1117,7 +1111,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"1",
 "price":"0.5",
@@ -1136,7 +1130,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"1",
 "price":"6",
@@ -1155,7 +1149,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"1",
 "price":"2.5",
@@ -1174,7 +1168,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"0",
 "price":"0",
@@ -1193,7 +1187,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"0",
 "price":"0",
@@ -1212,7 +1206,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"0",
 "price":"0",
@@ -1231,7 +1225,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"1",
 "price":"7",
@@ -1250,7 +1244,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"0",
 "price":"0",
@@ -1269,7 +1263,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"0",
 "price":"0",
@@ -1286,13 +1280,11 @@
 "tax_5":"0",
 "products":["904681"]
 }
-]
-
-
+],
 "RestaurantInfo":[
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "abn":"",
 "addLineBetweenItems":"0",
@@ -1313,10 +1305,10 @@
 "printOrderModOnKV":"0",
 "printOrdersTo":"1",
 "printVoidedItemsOnKP":"0",
-"quickServiceTitle":"",
+"quickServiceTitle":"(null)",
 "receiptFooter1":"",
 "receiptFooter2":"",
-"shouldAutoReceiptPrint":"",
+"shouldAutoReceiptPrint":"(null)",
 "shouldLockTableLayout":"0",
 "shouldShowControlsOnReport":"0",
 "shouldUseTableLayout":"1",
@@ -1332,7 +1324,7 @@
 "website":"",
 "zip":""
 }
-]
+],
 "RestaurantTable":[
 {
 "isLocked":"0",
@@ -1372,7 +1364,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "isBarService":"0",
 "isClosed":"0",
@@ -1390,7 +1382,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "isBarService":"0",
 "isClosed":"0",
@@ -1426,7 +1418,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "isBarService":"0",
 "isClosed":"0",
@@ -1462,7 +1454,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "isBarService":"0",
 "isClosed":"0",
@@ -1498,7 +1490,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "isBarService":"0",
 "isClosed":"0",
@@ -1642,7 +1634,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "isBarService":"0",
 "isClosed":"0",
@@ -1660,7 +1652,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "isBarService":"0",
 "isClosed":"0",
@@ -1678,7 +1670,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "isBarService":"0",
 "isClosed":"0",
@@ -1696,7 +1688,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "isBarService":"0",
 "isClosed":"0",
@@ -1732,7 +1724,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "isBarService":"0",
 "isClosed":"0",
@@ -1750,7 +1742,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "isBarService":"0",
 "isClosed":"0",
@@ -1768,7 +1760,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "isBarService":"0",
 "isClosed":"0",
@@ -1786,7 +1778,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "isBarService":"0",
 "isClosed":"0",
@@ -1804,7 +1796,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "isBarService":"0",
 "isClosed":"0",
@@ -1822,7 +1814,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "isBarService":"0",
 "isClosed":"0",
@@ -1928,21 +1920,21 @@
 "tlBoxIndex":"27",
 "childTables":[]
 }
-]
+],
 "SaleInfo":[
 {
 "isLocked":"0",
-"lastSyncedAt":"",
-"lastUpdatedAt":"2013-07-15 06:31:57 +0000",
+"lastSyncedAt":"(null)",
+"lastUpdatedAt":"2013-07-21 17:43:26 +0000",
 "cardSale":"0",
 "cashSale":"0",
-"createdAt":"2013-07-15 06:31:57 +0000",
-"dateOnlyString":"15-07-2013",
+"createdAt":"2013-07-21 17:43:26 +0000",
+"dateOnlyString":"21-07-2013",
 "floatAmount":"0",
 "grossSale":"0",
 "isClosed":"0",
 "netSale":"0",
-"saleId":"C6797238_043544",
+"saleId":"51656598_957735",
 "saleInfoType":"SaleInfoTypeDaily",
 "tax1Amt":"0",
 "tax2Amt":"0",
@@ -1955,19 +1947,16 @@
 "totalRefund":"0",
 "totalSurcharge":"0",
 "totalTax":"0",
-"updatedAt":"2013-07-15 06:31:57 +0000",
+"updatedAt":"2013-07-21 17:43:27 +0000",
 "voucherSale":"0",
 "soldItems":[],
 "userSales":[]
 }
-]
-
-
-
+],
 "SubMenu":[
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "sortOrder":"3",
 "subMenuID":"163877",
@@ -1978,7 +1967,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "sortOrder":"1",
 "subMenuID":"256856",
@@ -1989,40 +1978,40 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "sortOrder":"5",
 "subMenuID":"287223",
 "subMenuName":"BIGGER BITES",
 "subMenuName2":"",
 "menus":["955699"],
-"products":["830732","731647","904681","039428"]
+"products":["904681","039428","731647","830732"]
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "sortOrder":"4",
 "subMenuID":"583351",
 "subMenuName":"BITES",
 "subMenuName2":"",
 "menus":["955699"],
-"products":["004365","533975"]
+"products":["533975","004365"]
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "sortOrder":"8",
 "subMenuID":"600295",
 "subMenuName":"Treats",
 "subMenuName2":"",
 "menus":[],
-"products":["900247","243307","617501"]
+"products":["243307","900247","617501"]
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "sortOrder":"2",
 "subMenuID":"910652",
@@ -2033,43 +2022,41 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "sortOrder":"6",
 "subMenuID":"965090",
 "subMenuName":"SALADS",
 "subMenuName2":"",
 "menus":["955699"],
-"products":["779493","581883"]
+"products":["581883","779493"]
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "sortOrder":"7",
 "subMenuID":"993103",
 "subMenuName":"SARNIES",
 "subMenuName2":"",
 "menus":["955699"],
-"products":["718054","672356","428805","753501","208098","657557"]
+"products":["753501","428805","718054","657557","208098","672356"]
 }
-]
-
+],
 "TaxInfo":[
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:46 +0000",
 "taxInfoId":"TAX 1",
 "taxLiteral":"TAX 1",
 "taxRate":"10"
 }
-]
-
+],
 "Toppings":[
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"1",
 "price":"3",
@@ -2088,7 +2075,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"1",
 "price":"4",
@@ -2107,7 +2094,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"1",
 "price":"3",
@@ -2126,7 +2113,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"1",
 "price":"4",
@@ -2141,11 +2128,11 @@
 "toppingsId":"236337",
 "toppingsName":"Prosciutto Di Parma",
 "toppingsName2":"",
-"products":["904681","657557","672356"]
+"products":["657557","904681","672356"]
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"1",
 "price":"3",
@@ -2164,7 +2151,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:42 +0000",
 "gst":"1",
 "price":"3",
@@ -2181,11 +2168,11 @@
 "toppingsName2":"",
 "products":["904681"]
 }
-]
+],
 "UserInfo":[
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "cardSale":"0",
 "cashSale":"0",
@@ -2204,7 +2191,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:41:39 +0000",
 "cardSale":"0",
 "cashSale":"0",
@@ -2223,7 +2210,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-18 12:03:48 +0000",
 "cardSale":"0",
 "cashSale":"0",
@@ -2242,7 +2229,7 @@
 },
 {
 "isLocked":"0",
-"lastSyncedAt":"",
+"lastSyncedAt":"(null)",
 "lastUpdatedAt":"2013-02-16 15:02:43 +0000",
 "cardSale":"0",
 "cashSale":"0",
@@ -2259,5 +2246,4 @@
 "kitchens":[],
 "userShifts":[]
 }
-]
-}
+]}

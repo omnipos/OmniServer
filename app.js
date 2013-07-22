@@ -29,7 +29,7 @@ var server = http.createServer(app).listen(3000, function() {
 var io = require('socket.io').listen(server);
 var IMServer = require('./IMServer');
 var omniserver = new IMServer(io);
-omniserver.initSetup();
+// omniserver.initSetup();
 
 io.configure('development', function(){
 	io.set('transports', ['websocket']);
