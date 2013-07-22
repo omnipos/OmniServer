@@ -1,6 +1,6 @@
 var fs = require('fs'),
  	http = require('http'),
-	coll;
+	coll, path = require('path');
 	
 	
 var express=require('express');
@@ -18,7 +18,6 @@ var ConstantsParamName = {
 var ConstantsParamValue = {
 	kUnauthorizedErrorMessage : "User not authorized"
 };
-
 
 var LOGGER;
 	// routing 
@@ -65,7 +64,93 @@ app.get('/', function (req, res) {
 		// 
 });
 
+app.get('/videos/:id', function(req, res) {
 
+	var file = util.format('../Trials/video%d.m4v',req.params.id);
+	LOGGER.debug('Trying to serve', file);
+	function reportError(err) { 
+		LOGGER.error(err); 
+		res.writeHead(500); 
+		res.end('Internal Server Error');
+	}
+	path.exists(file, function(exists) { 
+		if (exists) {
+			var type = 'video/m4v';
+			fs.stat(file, function(err, stat) { 
+				var rs;
+				if (err) {
+					return reportError(err);
+				}
+				if (stat.isDirectory()) 
+				{ 
+					res.writeHead(403); 
+					res.end('Forbidden');
+				} else {
+					var stat = fs.statSync(file);
+					var range = request.headers.range;
+					// If request is for parital download
+					if(!range){
+						res.writeHead(200, {
+						  'Content-Type' : type,
+						  'Content-Length': stat.size
+						});
+						rs = fs.createReadStream(file);
+						rs.on('error', reportError);
+						res.writeHead(200);
+						rs.pipe(res);						
+					}
+					else{
+						var parts = range.replace(/bytes=/, "").split("-"); 
+					    var partialstart = parts[0]; 
+					    var partialend = parts[1]; 
+					    var start = parseInt(partialstart, 10); 
+					    var end = partialend ? parseInt(partialend, 10) : stat.size-1; 
+					    var chunksize = (end-start)+1;
+						res.writeHead(206, 
+							{ 
+								"Content-Range": "bytes " + start + "-" + end + "/" + total, 
+								"Accept-Ranges": "bytes", 
+								"Content-Length": chunksize, 
+								"Content-Type": type 
+							});
+							
+						fs.open(file, 'r+', function opened(err, fdes) {
+							 if (err) { return callback(err); }
+							function notifyError(err) {
+								fs.close(fd, function() { 0
+									callback(err);0
+									}); 
+.								}
+							var rs = fs.createReadStream(null, {fd: fdes, start: partialstart, encoding:null, bufferSize:1024});	
+/*
+In most cases you can avoid filling up the memory with unflushed buffers by pausing the producer — the readable stream — 
+so that the consumer’s data — the writable stream — does not get flushed into the kernel.
+*/
+							rs.on('data', function(data) { 
+		0						i.f (!res.write(data)) {
+		0							rs.pause(); 
+									}
+							});
+/*
+Issuing write commands, you know0 if the buffer was immediately flushed. If it was not flushed, it’s stored in your process memory.
+Later, when the stream manages to flush all the pending buffers, it emits a drain event
+*/							
+							res.on('drain', function() { 
+								rs.resume();
+							});
+							rs.on('end', function() { 
+								res.end();
+							});
+						});	//helo
+					} //1
+				}
+			});
+		} else{ 
+			res.writeHead(404); 
+			res.end('Not found');
+			}
+		});
+});
 
 io.set('authorization', function (handshakeData, accept) {
 		var response = {};
