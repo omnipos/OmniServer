@@ -33,7 +33,7 @@ var omniserver = new IMServer(io);
 io.configure('development', function(){
 	io.set('transports', ['websocket']);
 	io.enable('browser client etag');
-	io.set('log level', 2);
+	io.set('log level', 3);
 });
 LOGGER = io.log;
 
@@ -48,15 +48,17 @@ app.get('/', function (req, res) {
 	
 		LOGGER.debug("UA : " + req.headers['user-agent']);
 		if(req.headers['user-agent'].match(/(AppleWebKit|Safari|Chrome|Android)/i)){
-			fs.readFile("./session_check/index.html", 'utf-8', function (error, data) {
+			fs.readFile("./index.html", 'utf-8', function (error, data) {
 		        res.writeHead(200, {'Content-Type': 'text/html'});
 		        res.write(data);
-		        res.end();
+				res.end();
 		    });
 		}
-		else
-			res.end();
-	
+		else{
+				res.writeHead(200, {'Content-Type': 'text/plain'});
+				res.write("you connected");
+				res.end();
+			}
 		// var err = {};
 		// 	err[ConstantsParamName.kErrorMessage] = ConstantsParamValue.kUnauthorizedErrorMessage;
 		// 	res.writeHead(IMServer.statusCodes.unauthorized,err);
@@ -66,14 +68,14 @@ app.get('/', function (req, res) {
 
 app.get('/videos/:id', function(req, res) {
 
-	var file = util.format('../Trials/video%d.m4v',req.params.id);
+	var file = util.format('../SetupData/%d.m4v',req.params.id);
 	LOGGER.debug('Trying to serve', file);
 	function reportError(err) { 
 		LOGGER.error(err); 
 		res.writeHead(500); 
 		res.end('Internal Server Error');
 	}
-	path.exists(file, function(exists) { 
+	fs.exists(file, function(exists) { 
 		if (exists) {
 			var type = 'video/m4v';
 			fs.stat(file, function(err, stat) { 
@@ -100,35 +102,37 @@ app.get('/videos/:id', function(req, res) {
 						rs.pipe(res);						
 					}
 					else{
-						var parts = range.replace(/bytes=/, "").split("-"); 
-					    var partialstart = parts[0]; 
-					    var partialend = parts[1]; 
-					    var start = parseInt(partialstart, 10); 
-					    var end = partialend ? parseInt(partialend, 10) : stat.size-1; 
-					    var chunksize = (end-start)+1;
-						res.writeHead(206, 
-							{ 
-								"Content-Range": "bytes " + start + "-" + end + "/" + total, 
-								"Accept-Ranges": "bytes", 
-								"Content-Length": chunksize, 
-								"Content-Type": type 
-							});
 							
 						fs.open(file, 'r+', function opened(err, fdes) {
 							 if (err) { return callback(err); }
 							function notifyError(err) {
-								fs.close(fd, function() { 0
-									callback(err);0
+								fs.close(fd, function() { 
+									callback(err);
 									}); 
-.								}
+								}
+							
+							var parts = range.replace(/bytes=/, "").split("-"); 
+							var partialstart = parts[0]; 
+							var partialend = parts[1]; 
+							var start = parseInt(partialstart, 10); 
+							var end = partialend ? parseInt(partialend, 10) : stat.size-1; 
+							var chunksize = (end-start)+1;
+							res.writeHead(206, 
+								{ 
+									"Content-Range": "bytes " + start + "-" + end + "/" + total, 
+									"Accept-Ranges": "bytes", 
+									"Content-Length": chunksize, 
+									"Content-Type": type 
+								});
 							var rs = fs.createReadStream(null, {fd: fdes, start: partialstart, encoding:null, bufferSize:1024});	
 /*
 In most cases you can avoid filling up the memory with unflushed buffers by pausing the producer — the readable stream — 
 so that the consumer’s data — the writable stream — does not get flushed into the kernel.
 */
 							rs.on('data', function(data) { 
-		0						i.f (!res.write(data)) {
-		0							rs.pause(); 
+								if (!res.write(data)) {
+									LOGGER.debug("pause starts");
+									rs.pause(); 
 									}
 							});
 /*
@@ -136,9 +140,11 @@ Issuing write commands, you know0 if the buffer was immediately flushed. If it w
 Later, when the stream manages to flush all the pending buffers, it emits a drain event
 */							
 							res.on('drain', function() { 
+								LOGGER.debug("drain ends");
 								rs.resume();
 							});
 							rs.on('end', function() { 
+								LOGGER.debug("streaming ends");
 								res.end();
 							});
 						});	//helo
@@ -148,6 +154,7 @@ Later, when the stream manages to flush all the pending buffers, it emits a drai
 		} else{ 
 			res.writeHead(404); 
 			res.end('Not found');
+			LOGGER.debug("File not found");
 			}
 		});
 });

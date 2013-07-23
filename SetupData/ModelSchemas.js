@@ -335,106 +335,107 @@ function OmniSchemas(){
 		
 		var _schemas = {};
 		
-		this.getModel = function(modelName){
+		return {
+			getModel : function(modelName){
 			
 			if(_schemas[modelName])
 				return _schemas[modelName];
 			else{
 				var objIdentifier,theSchema;
-				if(modelName == Entities.kRestaurntInfo){
-					objIdentifier = 'RestaurantInfo';
-					theSchema = _RestaurantInfoSchema;
-				}
-				else if(modelName == Entities.kNote){
-					objIdentifier = 'Note';
-					theSchema = _NoteSchema;
-				}
-				else if(modelName == Entities.kPosDevice){
-					objIdentifier = 'Posdevice';
-					theSchema = _ProductSchema;
-				}
-				else if(modelName == Entities.kProduct){
-					objIdentifier = 'Product';
-					theSchema = _ProductSchema;					
-				}
-				else if(modelName == Entities.kCustomer){
-					objIdentifier = 'Customer';
-					theSchema = _CustomerSchema;
+					if(modelName == Entities.kRestaurntInfo){
+						objIdentifier = 'RestaurantInfo';
+						theSchema = _RestaurantInfoSchema;
+					}
+					else if(modelName == Entities.kNote){
+						objIdentifier = 'Note';
+						theSchema = _NoteSchema;
+					}
+					else if(modelName == Entities.kPosDevice){
+						objIdentifier = 'Posdevice';
+						theSchema = _ProductSchema;
+					}
+					else if(modelName == Entities.kProduct){
+						objIdentifier = 'Product';
+						theSchema = _ProductSchema;					
+					}
+					else if(modelName == Entities.kCustomer){
+						objIdentifier = 'Customer';
+						theSchema = _CustomerSchema;
 					
-				}
-				else if(modelName == Entities.kUserInfo){
-					objIdentifier = 'UserInfo';
-					theSchema = _UserInfoSchema;
+					}
+					else if(modelName == Entities.kUserInfo){
+						objIdentifier = 'UserInfo';
+						theSchema = _UserInfoSchema;
 					
-				}
-				else if(modelName == Entities.kSoldItem){
-					objIdentifier = 'SoldItem';
-					theSchema = _SoldItemSchema;
+					}
+					else if(modelName == Entities.kSoldItem){
+						objIdentifier = 'SoldItem';
+						theSchema = _SoldItemSchema;
 					
-				}
-				else if(modelName == Entities.kUserShift){
-					objIdentifier = 'UserShift';
-					theSchema = _UserShiftSchema;
+					}
+					else if(modelName == Entities.kUserShift){
+						objIdentifier = 'UserShift';
+						theSchema = _UserShiftSchema;
 					
-				}
-				else if(modelName == Entities.kUserSale){
-					objIdentifier = 'UserSale';
-					theSchema = _UserSaleSchema;
+					}
+					else if(modelName == Entities.kUserSale){
+						objIdentifier = 'UserSale';
+						theSchema = _UserSaleSchema;
 					
-				}
-				else if(modelName == Entities.kSaleInfo){
-					theSchema = _SaleInfoSchema;
-					objIdentifier = 'SaleInfo';
+					}
+					else if(modelName == Entities.kSaleInfo){
+						theSchema = _SaleInfoSchema;
+						objIdentifier = 'SaleInfo';
 					
-				}
-				else if(modelName == Entities.kKitchen){
-					objIdentifier = 'Kitchen';
-					theSchema = _KitchenSchema;
+					}
+					else if(modelName == Entities.kKitchen){
+						objIdentifier = 'Kitchen';
+						theSchema = _KitchenSchema;
 					
-				}
-				else if(modelName == Entities.kProductOptions){
-					objIdentifier = 'ProductOptions';
-					theSchema = _ProductOptionsSchema;
+					}
+					else if(modelName == Entities.kProductOptions){
+						objIdentifier = 'ProductOptions';
+						theSchema = _ProductOptionsSchema;
 					
-				}						
-				else if(modelName == Entities.kRestaurantTable){
-					objIdentifier = 'RestaurantTable';
-					theSchema = _RestaurantTableSchema;
+					}						
+					else if(modelName == Entities.kRestaurantTable){
+						objIdentifier = 'RestaurantTable';
+						theSchema = _RestaurantTableSchema;
 					
-				}
-				else if(modelName == Entities.kSubMenu){
-					objIdentifier = 'SubMenu';
-					theSchema = _SubMenuSchema;
+					}
+					else if(modelName == Entities.kSubMenu){
+						objIdentifier = 'SubMenu';
+						theSchema = _SubMenuSchema;
 					
-				}
-				else if(modelName == Entities.kTaxInfo){
-					objIdentifier = 'TaxInfo';
-					theSchema = _TaxInfoSchema;
+					}
+					else if(modelName == Entities.kTaxInfo){
+						objIdentifier = 'TaxInfo';
+						theSchema = _TaxInfoSchema;
 					
-				}
-				else if(modelName == Entities.kToppings){
-					objIdentifier = 'Toppings';
-					theSchema = _ToppingsSchema;
+					}
+					else if(modelName == Entities.kToppings){
+						objIdentifier = 'Toppings';
+						theSchema = _ToppingsSchema;
 					
-				}													
-				else if(modelName == Entities.kReservation){
-					objIdentifier = 'Reservation';
-					theSchema = _ReservationSchema;
+					}													
+					else if(modelName == Entities.kReservation){
+						objIdentifier = 'Reservation';
+						theSchema = _ReservationSchema;
 					
-				}
-				else if(modelName == Entities.kCookingOptions){
-					objIdentifier = 'CookingOptions';
-					theSchema = _CookingOptionsSchema;
+					}
+					else if(modelName == Entities.kCookingOptions){
+						objIdentifier = 'CookingOptions';
+						theSchema = _CookingOptionsSchema;
 					
-				}
-				else if(modelName == Entities.kCourse){
-					objIdentifier = 'Course';
-					theSchema = _CourseSchema;
+					}
+					else if(modelName == Entities.kCourse){
+						objIdentifier = 'Course';
+						theSchema = _CourseSchema;
 					
-				}	
-				else{
-					return null;
-				}
+					}	
+					else{
+						return null;
+					}
 				// add extra common fields for all schema...
 				theSchema.plugin(parentMod);
 				// compile the the schema
@@ -443,9 +444,10 @@ function OmniSchemas(){
 				var reqModel = mongoose.model(objIdentifier);											
 				_schemas[modelName] = reqModel;
 				return reqModel;
+				}
 			}
 		};
+			
 }
 
 module.exports = OmniSchemas;
-module.exports = mongoose;

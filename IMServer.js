@@ -4,7 +4,7 @@ var Server,Db,BSON;
 var sessionMgm = require("./sessionManagement");
 var OmniSchema = require("./SetupData/ModelSchemas");
 // http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
-
+var mongoose = require('mongoose');
 
 function IMServer(ioserver){
 
