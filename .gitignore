@@ -6,3 +6,4 @@
 *.ear
 node_modules/*
 SetupData/*.m4v
+videos/*

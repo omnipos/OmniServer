@@ -68,7 +68,7 @@ app.get('/', function (req, res) {
 
 app.get('/videos/:id', function(req, res) {
 
-	var file = util.format('../SetupData/%d.m4v',req.params.id);
+	var file = util.format('./videos/%s',req.params.id);
 	LOGGER.debug('Trying to serve', file);
 	function reportError(err) { 
 		LOGGER.error(err); 
@@ -89,17 +89,18 @@ app.get('/videos/:id', function(req, res) {
 					res.end('Forbidden');
 				} else {
 					var stat = fs.statSync(file);
-					var range = request.headers.range;
+					var range = req.headers.range;
 					// If request is for parital download
+					var total = stat.size;
 					if(!range){
 						res.writeHead(200, {
 						  'Content-Type' : type,
-						  'Content-Length': stat.size
+						  'Content-Length': total
 						});
 						rs = fs.createReadStream(file);
 						rs.on('error', reportError);
-						res.writeHead(200);
-						rs.pipe(res);						
+						rs.pipe(res);
+						LOGGER.debug("supplying file complete")	;					
 					}
 					else{
 							
@@ -114,17 +115,17 @@ app.get('/videos/:id', function(req, res) {
 							var parts = range.replace(/bytes=/, "").split("-"); 
 							var partialstart = parts[0]; 
 							var partialend = parts[1]; 
-							var start = parseInt(partialstart, 10); 
-							var end = partialend ? parseInt(partialend, 10) : stat.size-1; 
+							var startpos = parseInt(partialstart, 10); 
+							var endpos = partialend ? parseInt(partialend, 10) : total-1; 
 							var chunksize = (end-start)+1;
 							res.writeHead(206, 
 								{ 
-									"Content-Range": "bytes " + start + "-" + end + "/" + total, 
+									"Content-Range": "bytes " + startpos + "-" + endpos + "/" + total, 
 									"Accept-Ranges": "bytes", 
 									"Content-Length": chunksize, 
 									"Content-Type": type 
 								});
-							var rs = fs.createReadStream(null, {fd: fdes, start: partialstart, encoding:null, bufferSize:1024});	
+							var rs = fs.createReadStream(null, {fd: fdes, start: startpos, encoding:null, bufferSize:1024});	
 /*
 In most cases you can avoid filling up the memory with unflushed buffers by pausing the producer — the readable stream — 
 so that the consumer’s data — the writable stream — does not get flushed into the kernel.
@@ -133,6 +134,9 @@ so that the consumer’s data — the writable stream — does not get flushed i
 								if (!res.write(data)) {
 									LOGGER.debug("pause starts");
 									rs.pause(); 
+									}
+									else{
+										LOGGER.debug("partial data, starts %ld",partialstart)						
 									}
 							});
 /*
@@ -153,7 +157,7 @@ Later, when the stream manages to flush all the pending buffers, it emits a drai
 			});
 		} else{ 
 			res.writeHead(404); 
-			res.end('Not found');
+			res.end('File Not found');
 			LOGGER.debug("File not found");
 			}
 		});
