@@ -1,0 +1,23 @@
+206
+"Accept-Ranges" = bytes;
+    Connection = "Keep-Alive";
+    "Content-Length" = 604888824;
+    "Content-Range" = "bytes 128506120-733394943/733394944";
+    "Content-Type" = "video/x-msvideo";
+    Date = "Thu, 25 Jul 2013 19:25:34 GMT";
+    Etag = "\"18047b9-2bb6b800-4e151a80f05c0\"";
+    "Keep-Alive" = "timeout=5, max=100";
+    "Last-Modified" = "Fri, 12 Jul 2013 14:52:15 GMT";
+    Server = "Apache/2.2.22 (Unix) DAV/2 mod_ssl/2.2.22 OpenSSL/0.9.8x";
+200
+Res Headers = {
+    "Accept-Ranges" = bytes;
+    Connection = "Keep-Alive";
+    "Content-Length" = 733394944;
+    "Content-Type" = "video/x-msvideo";
+    Date = "Fri, 26 Jul 2013 02:35:32 GMT";
+    Etag = "\"18047b9-2bb6b800-4e151a80f05c0\"";
+    "Keep-Alive" = "timeout=5, max=100";
+    "Last-Modified" = "Fri, 12 Jul 2013 14:52:15 GMT";
+    Server = "Apache/2.2.22 (Unix) DAV/2 mod_ssl/2.2.22 OpenSSL/0.9.8x";
+}
