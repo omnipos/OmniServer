@@ -33,7 +33,7 @@ var omniserver = new IMServer(io);
 io.configure('development', function(){
 	io.set('transports', ['websocket']);
 	io.enable('browser client etag');
-	io.set('log level', 3);
+	io.set('log level', 2);
 });
 LOGGER = io.log;
 
@@ -76,8 +76,9 @@ app.get('/videos/:id', function(req, res) {
 		res.end('Internal Server Error');
 	}
 	fs.exists(file, function(exists) { 
+		
 		if (exists) {
-			var type = 'video/m4v';
+			var type = 'video/x-msvideo';
 			fs.stat(file, function(err, stat) { 
 				var rs;
 				if (err) {
@@ -88,70 +89,114 @@ app.get('/videos/:id', function(req, res) {
 					res.writeHead(403); 
 					res.end('Forbidden');
 				} else {
-					var stat = fs.statSync(file);
+					// var stat = fs.statSync(file);
 					var range = req.headers.range;
 					// If request is for parital download
 					var total = stat.size;
+					
+					/*
+					The second argument is optional. The options if provided should be an object containing two members startOffset, endOffset.
+					*/
+					function readAndSend(filename,/*optional arguments*/optParams,callback){
+							if (typeof callback === 'undefined') {
+						    	// only two paramaters were passed, so the callback is actually in `optParam`
+							    callback = optParams;
+							}
+							else{
+								startOffet = typeof optParams['startOffset'] !== 'undefined' ? optParams['startOffset'] : 0;
+								endOffset = typeof optParams['endOffset'] !== 'undefined' ? optParams['endOffset'] : total - 1;
+							}
+							
+							fs.open(filename, 'r+', function opened(err, fdes) {
+								 if (err) { return callback(err); }
+
+								function notifyError(err) {
+									fs.close(fd, function() { 
+										callback(err);
+										}); 
+									};
+
+								var rs = fs.createReadStream(null, {fd: fdes, start: startpos, encoding:null, bufferSize:65536});	
+								if(fdes > -1)
+									LOGGER.info("data started "+Date());
+			/*
+			In most cases you can avoid filling up the memory with unflushed buffers by pausing the producer — the readable stream — 
+			so that the consumer’s data — the writable stream — does not get flushed into the kernel.
+			*/	
+								rs.on('data', function(data) { 
+									if (!res.write(data)) {
+										LOGGER.debug("pause starts");
+										rs.pause(); 
+									}
+									else{
+										LOGGER.debug("partial data, starts %ld",data.length);						
+									}
+								});
+			/*
+			Issuing write commands, you know0 if the buffer was immediately flushed. If it was not flushed, it’s stored in your process memory.
+			Later, when the stream manages to flush all the pending buffers, it emits a drain event
+			*/							
+								res.on('drain', function() { 
+									rs.resume();
+									LOGGER.debug("drain ends");
+									
+								});
+								rs.on('end', function() { 
+									res.end();
+									LOGGER.info("streaming ends,supplying file complete");
+									fs.close(fdes, function() {
+										callback(err); 
+										});
+										
+									
+								});
+								rs.on('error', reportError);
+							});	
+
+					};
+					
+					function doneCallback(err) {
+						if (err) {
+							LOGGER.error("error while opening and writing:", err.message); return;
+						}
+						LOGGER.debug('All done with no errors');
+						LOGGER.info("data ended "+Date());
+						
+					};
+					// 
 					if(!range){
 						res.writeHead(200, {
-						  'Content-Type' : type,
-						  'Content-Length': total
+							'Content-Type' : type,
+							'Content-Length': total,
+							'Keep-Alive' : 'timeout=5, max=100',
+							'Connection' : 'Keep-Alive',
+							'Accept-Ranges' : 'bytes'
 						});
-						rs = fs.createReadStream(file);
-						rs.on('error', reportError);
-						rs.pipe(res);
-						LOGGER.debug("supplying file complete")	;					
+						readAndSend(file,doneCallback);
+						// rs = fs.createReadStream(file);
+						// 						
+						// 						rs.pipe(res);
+						// LOGGER.debug("supplying file complete")	;					
 					}
 					else{
-							
-						fs.open(file, 'r+', function opened(err, fdes) {
-							 if (err) { return callback(err); }
-							function notifyError(err) {
-								fs.close(fd, function() { 
-									callback(err);
-									}); 
-								}
-							
 							var parts = range.replace(/bytes=/, "").split("-"); 
 							var partialstart = parts[0]; 
 							var partialend = parts[1]; 
 							var startpos = parseInt(partialstart, 10); 
-							var endpos = partialend ? parseInt(partialend, 10) : total-1; 
-							var chunksize = (end-start)+1;
+							var endpos = partialend ? parseInt(partialend, 10) : total-1;
+							var chunksize = (endpos - startpos)+1;
+							
 							res.writeHead(206, 
 								{ 
-									"Content-Range": "bytes " + startpos + "-" + endpos + "/" + total, 
-									"Accept-Ranges": "bytes", 
-									"Content-Length": chunksize, 
-									"Content-Type": type 
+									'Content-Range': "bytes " + startpos + "-" + endpos + "/" + total, 
+									'Accept-Ranges': "bytes", 
+									'Content-Length': chunksize, 
+									'Content-Type': type,
+									'Keep-Alive' : 'timeout=5, max=100',
+									'Connection' : 'Keep-Alive',
+									'Accept-Ranges' : 'bytes' 
 								});
-							var rs = fs.createReadStream(null, {fd: fdes, start: startpos, encoding:null, bufferSize:1024});	
-/*
-In most cases you can avoid filling up the memory with unflushed buffers by pausing the producer — the readable stream — 
-so that the consumer’s data — the writable stream — does not get flushed into the kernel.
-*/
-							rs.on('data', function(data) { 
-								if (!res.write(data)) {
-									LOGGER.debug("pause starts");
-									rs.pause(); 
-									}
-									else{
-										LOGGER.debug("partial data, starts %ld",partialstart)						
-									}
-							});
-/*
-Issuing write commands, you know0 if the buffer was immediately flushed. If it was not flushed, it’s stored in your process memory.
-Later, when the stream manages to flush all the pending buffers, it emits a drain event
-*/							
-							res.on('drain', function() { 
-								LOGGER.debug("drain ends");
-								rs.resume();
-							});
-							rs.on('end', function() { 
-								LOGGER.debug("streaming ends");
-								res.end();
-							});
-						});	//helo
+							readAndSend(file,{"startOffset":startpos,"endOffset":endpos},doneCallback);
 					} //1
 				}
 			});
