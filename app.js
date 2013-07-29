@@ -28,6 +28,7 @@ var server = http.createServer(app).listen(3000, function() {
 var io = require('socket.io').listen(server);
 var IMServer = require('./IMServer');
 var omniserver = new IMServer(io);
+
 // omniserver.initSetup();
 
 io.configure('development', function(){
@@ -151,6 +152,14 @@ app.get('/videos/:id', function(req, res) {
 									
 								});
 								rs.on('error', reportError);
+								
+								req.on("close", function() {
+									res.end();
+									LOGGER.error("request closed unexpectedly");
+									fs.close(fdes, function() {
+										callback(err); 
+										});
+								});
 							});	
 
 					};
@@ -372,7 +381,7 @@ io.sockets.on('connection', function (socket) {
 		var user = sessionMgm.getSessionById(header[IMServer.sessionID]);
 		if(user != null && (user["userType"] == userRoles.Manager || user["userType"] == userRoles.Admin)){
 			// let it upload ...
-			 
+			 omniserver.populateDB(content);
 		}
 	});
 
@@ -383,3 +392,4 @@ process.on( "SIGINT", function() {
 	omniserver.shutdown();
 	process.exit();
 } );
+

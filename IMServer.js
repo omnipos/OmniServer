@@ -15,24 +15,26 @@ function IMServer(ioserver){
 	// usernames which are currently connected to the chat
 	this.usernames = {};
 	this.allSockets = {};
+	this.logger = ioserver.log;
 	this.schema = new OmniSchema();
 	mongoose.connect('mongodb://localhost:27017/omnidb');
 	// var server = new Server('localhost', 27017, {auto_reconnect: true,w:1});
 	this.db = mongoose.connection;
 	this.db.on("error",console.error.bind(console,"connection error"));
-	this.db.once("open",function(){
-		console.log("connected");
+	this.db.on("open",function(){
+		that.logger.debug("connected");
 	});
 	// new Db('omnidb', server);
 	var that = this;
 	this.shutdown = function(){
 		that.db.close();
-		console.log("Closing 'omnidb' database");
+		that.logger.info("Closing 'omnidb' database");
 	};
 	
 	this.io = ioserver;
 };
 
+IMServer.timestamp = "lasttimestamp";
 IMServer.userInfos = 'UserInfo';
 IMServer.header = "header";
 IMServer.payload = "payload";
@@ -56,8 +58,8 @@ IMServer.prototype.initSetup = function(){
 	        console.log("Connected to 'omnidb' database");
 	        that.db.collection(IMServer.userInfos, {strict:true}, function(err, collection) {
 	            if (err) {
-	                console.log("The "+ IMServer.userInfos +" collection doesn't exist. Creating it with sample data...");
-	                populateDB();
+	                that.logger.debug("The "+ IMServer.userInfos +" collection doesn't exist. Creating it with sample data...");
+	                populateDBWithDefaultUser();
 	            }
 	        });
 
@@ -101,6 +103,10 @@ IMServer.prototype.sessionDestroy = function(sessionID){
 	// socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
 };
 
+IMServer.prototype.populateDB = function(data){
+	this.logger.debug(data);
+};
+
 // Table lock status (true/false)
 IMServer.prototype.getTableStatus = function(){
 	
@@ -124,7 +130,7 @@ IMServer.prototype.clearOpenOrders = function(){
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.
 // You'd typically not find this code in a real-life app, since the database would already exist.
-var populateDB = function() {
+var populateDBWithDefaultUser = function() {
 
     var userInfos = [{
 	                "lastUpdatedAt": "",
