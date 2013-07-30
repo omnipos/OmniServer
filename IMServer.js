@@ -1,7 +1,7 @@
 var mongo = require('mongodb');
 var ses
 var Server,Db,BSON;
-var sessionMgm = require("./sessionManagement");
+var SessionManager = require("./sessionManagement");
 var OmniSchema = require("./SetupData/ModelSchemas");
 // http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 var mongoose = require('mongoose');
@@ -16,19 +16,42 @@ function IMServer(ioserver){
 	this.usernames = {};
 	this.allSockets = {};
 	this.logger = ioserver.log;
+	this.sessionMgr = new SessionManager();
 	this.schema = new OmniSchema();
-	mongoose.connect('mongodb://localhost:27017/omnidb');
+	mongoose.connect('mongodb://localhost:27017/omnidb',{server: { poolSize: 1 }});
 	// var server = new Server('localhost', 27017, {auto_reconnect: true,w:1});
-	this.db = mongoose.connection;
-	this.db.on("error",console.error.bind(console,"connection error"));
-	this.db.on("open",function(){
-		that.logger.debug("connected");
+	// NAtive mongodb connection
+	this.dbConn = mongoose.connection;
+	this.dbConn.on("error",console.error.bind(console,"connection error"));
+	
+	var that = this;
+	this.initSetup = function(){
+		var userModel = this.schema.getModel(OmniSchema.Entities.kUserInfo);
+		if(userModel){
+			userModel.count({}, function( err, count){
+				if(err){
+			       that.logger.error("The "+ IMServer.userInfos +" collection doesn't exist. Creating it with sample data...");
+				} 
+				else{
+					if(count < 1){
+						populateDBWithDefaultUser.call(that,userModel);	
+					}
+				}
+			});
+		}
+		else{
+			this.logger.error("Model not found");
+		}
+	};
+	
+	this.dbConn.on("open",function(){
+		that.logger.info("connected to db");
+		that.initSetup();
 	});
 	// new Db('omnidb', server);
-	var that = this;
 	this.shutdown = function(){
-		that.db.close();
-		that.logger.info("Closing 'omnidb' database");
+		this.dbConn.close();
+		this.logger.info("Closing 'omnidb' database");
 	};
 	
 	this.io = ioserver;
@@ -49,54 +72,37 @@ IMServer.statusCodes = {
 	notFound:404,
 };
 
-IMServer.prototype.initSetup = function(){
 
-	// Establish connection to db
-	var that = this;
-	this.db.open(function(err, db) {
-	  	if(!err) {
-	        console.log("Connected to 'omnidb' database");
-	        that.db.collection(IMServer.userInfos, {strict:true}, function(err, collection) {
-	            if (err) {
-	                that.logger.debug("The "+ IMServer.userInfos +" collection doesn't exist. Creating it with sample data...");
-	                populateDBWithDefaultUser();
-	            }
-	        });
-
-			
-		}
-		else{
-			console.log("error in db open\n"+err)
-		}
-	});
-};
 
 // Response- success/failure
 IMServer.prototype.loginUser = function(pin,callback){
-    this.db.collection(IMServer.userInfos, function(err, collection) {
-	// findone async
-        collection.findOne({'loginPin':pin}, function(err, item) {
-			if(!err)
-				callback(item);		
-			else
-				callback(null);
-            // return item;
-        });
-    });
-};
+	
+	var userModel = this.schema.getModel(OmniSchema.Entities.kUserInfo);
+	var self = this;
+	userModel.findOne({'loginPin':pin}, function (err, user) {
+		if (!err) 
+			callback(user);
+		else{
+			callback(null);
+			self.logger.error(err);
+		}
+	  
+	});
+	
+ };
 
 IMServer.prototype.isSessionValid = function(sessionID){
-	return sessionMgm.getSessionById(sessionID) != null;
+	return this.sessionMgr.getSessionById(sessionID) != null;
 };
 
 
 IMServer.prototype.sessionStart = function(data,sessionID){
-	sessionMgm.add(data,sessionID);
+	this.sessionMgr.add(data,sessionID);
 };
 
 IMServer.prototype.sessionDestroy = function(sessionID){
 	// remove the username from global usernames list
-	sessionMgm.removeBySessionId(sessionID);
+	this.sessionMgr.removeBySessionId(sessionID);
 	// update list of users in chat, client-side
 	// this.io.sockets.emit('updateusers', usernames);
 	// echo globally that this client has left
@@ -130,13 +136,13 @@ IMServer.prototype.clearOpenOrders = function(){
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.
 // You'd typically not find this code in a real-life app, since the database would already exist.
-var populateDBWithDefaultUser = function() {
-
-    var userInfos = [{
+var populateDBWithDefaultUser = function(model) {
+	
+    var UserInfos = new model({
 	                "lastUpdatedAt": "",
 	                "voucherSale": 0,
 	                "lastName": "admin",
-	                "userType": userRoles.Admin,
+	                "userType": SessionManager.userRoles.Admin,
 	                "firstName": "admin",
 	                "loginPin": "19681968",
 	                "isLocked": 0,
@@ -147,12 +153,16 @@ var populateDBWithDefaultUser = function() {
 	                "cardSale": 0,
 	                "phone": "0",
 	                "userID": "041467"
-	        }];
-
-    db.collection(IMServer.userInfos, function(err, collection) {
-        collection.insert(userInfos, {safe:true}, function(err, result) {});
-    });
-
+	        });
+	
+	var self = this;
+	UserInfos.save(function (err) {
+	    if (!err) {
+		      self.logger.debug("created");
+	    } else {
+			self.logger.error(err);
+		}
+	});
 };
 
 module.exports = IMServer;

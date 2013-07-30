@@ -2,29 +2,7 @@ var mongoose = require('mongoose')
   , Schema = mongoose.Schema;
 
 var parentMod = require('./ParentOmniSchema');
-var Entities = {
-	kProduct : "_ProductSchema",
-	kCustomer : "_CustomerSchema",
-	kUserInfo : "_UserInfoSchema",
-	kSoldItem : "_SoldItemSchema",
-	kUserShift : "_UserShiftSchema",
-	kSaleInfo : "_SaleInfoSchema",
-	kKitchen : "_KitchenSchema",
-	kProductOptions : "_ProductOptionsSchema",
-	kRestaurantTable : "_RestaurantTableSchema",
-	kRestaurantInfo : "_RestaurantInfoSchema",
-	kSubMenu : "_SubMenuSchema",
-	kTaxInfo : "_TaxInfoSchema",
-	kToppings : "_ToppingsSchema",
-	kReservation : "_ReservationSchema",
-	kCookingOptions : "_CookingOptionsSchema",
-	kCourse : "_CourseSchema",
-	kUserSale : "_UserSaleSchema",
-	kPrinter : "_PrinterSchema",
-	kNote: "_NoteSchema",
-	kRestaurntInfo : "_RestaurantInfoSchema",
-	kPosDevice : "_PosDevice"
-};
+
 
 function OmniSchemas(){
 	
@@ -337,98 +315,99 @@ function OmniSchemas(){
 		
 		return {
 			getModel : function(modelName){
-			
+			// http://mongoosejs.com/docs/guide.html#collection
 			if(_schemas[modelName])
 				return _schemas[modelName];
 			else{
 				var objIdentifier,theSchema;
-					if(modelName == Entities.kRestaurntInfo){
+				var allSchemas = OmniSchemas.Entities;
+					if(modelName == allSchemas.kRestaurntInfo){
 						objIdentifier = 'RestaurantInfo';
 						theSchema = _RestaurantInfoSchema;
 					}
-					else if(modelName == Entities.kNote){
+					else if(modelName == allSchemas.kNote){
 						objIdentifier = 'Note';
 						theSchema = _NoteSchema;
 					}
-					else if(modelName == Entities.kPosDevice){
+					else if(modelName == allSchemas.kPosDevice){
 						objIdentifier = 'Posdevice';
 						theSchema = _ProductSchema;
 					}
-					else if(modelName == Entities.kProduct){
+					else if(modelName == allSchemas.kProduct){
 						objIdentifier = 'Product';
 						theSchema = _ProductSchema;					
 					}
-					else if(modelName == Entities.kCustomer){
+					else if(modelName == allSchemas.kCustomer){
 						objIdentifier = 'Customer';
 						theSchema = _CustomerSchema;
 					
 					}
-					else if(modelName == Entities.kUserInfo){
+					else if(modelName == allSchemas.kUserInfo){
 						objIdentifier = 'UserInfo';
 						theSchema = _UserInfoSchema;
 					
 					}
-					else if(modelName == Entities.kSoldItem){
+					else if(modelName == allSchemas.kSoldItem){
 						objIdentifier = 'SoldItem';
 						theSchema = _SoldItemSchema;
 					
 					}
-					else if(modelName == Entities.kUserShift){
+					else if(modelName == allSchemas.kUserShift){
 						objIdentifier = 'UserShift';
 						theSchema = _UserShiftSchema;
 					
 					}
-					else if(modelName == Entities.kUserSale){
+					else if(modelName == allSchemas.kUserSale){
 						objIdentifier = 'UserSale';
 						theSchema = _UserSaleSchema;
 					
 					}
-					else if(modelName == Entities.kSaleInfo){
+					else if(modelName == allSchemas.kSaleInfo){
 						theSchema = _SaleInfoSchema;
 						objIdentifier = 'SaleInfo';
 					
 					}
-					else if(modelName == Entities.kKitchen){
+					else if(modelName == allSchemas.kKitchen){
 						objIdentifier = 'Kitchen';
 						theSchema = _KitchenSchema;
 					
 					}
-					else if(modelName == Entities.kProductOptions){
+					else if(modelName == allSchemas.kProductOptions){
 						objIdentifier = 'ProductOptions';
 						theSchema = _ProductOptionsSchema;
 					
 					}						
-					else if(modelName == Entities.kRestaurantTable){
+					else if(modelName == allSchemas.kRestaurantTable){
 						objIdentifier = 'RestaurantTable';
 						theSchema = _RestaurantTableSchema;
 					
 					}
-					else if(modelName == Entities.kSubMenu){
+					else if(modelName == allSchemas.kSubMenu){
 						objIdentifier = 'SubMenu';
 						theSchema = _SubMenuSchema;
 					
 					}
-					else if(modelName == Entities.kTaxInfo){
+					else if(modelName == allSchemas.kTaxInfo){
 						objIdentifier = 'TaxInfo';
 						theSchema = _TaxInfoSchema;
 					
 					}
-					else if(modelName == Entities.kToppings){
+					else if(modelName == allSchemas.kToppings){
 						objIdentifier = 'Toppings';
 						theSchema = _ToppingsSchema;
 					
 					}													
-					else if(modelName == Entities.kReservation){
+					else if(modelName == allSchemas.kReservation){
 						objIdentifier = 'Reservation';
 						theSchema = _ReservationSchema;
 					
 					}
-					else if(modelName == Entities.kCookingOptions){
+					else if(modelName == allSchemas.kCookingOptions){
 						objIdentifier = 'CookingOptions';
 						theSchema = _CookingOptionsSchema;
 					
 					}
-					else if(modelName == Entities.kCourse){
+					else if(modelName == allSchemas.kCourse){
 						objIdentifier = 'Course';
 						theSchema = _CourseSchema;
 					
@@ -449,5 +428,30 @@ function OmniSchemas(){
 		};
 			
 }
+
+
+OmniSchemas.Entities = {
+	kProduct : "_ProductSchema",
+	kCustomer : "_CustomerSchema",
+	kUserInfo : "_UserInfoSchema",
+	kSoldItem : "_SoldItemSchema",
+	kUserShift : "_UserShiftSchema",
+	kSaleInfo : "_SaleInfoSchema",
+	kKitchen : "_KitchenSchema",
+	kProductOptions : "_ProductOptionsSchema",
+	kRestaurantTable : "_RestaurantTableSchema",
+	kRestaurantInfo : "_RestaurantInfoSchema",
+	kSubMenu : "_SubMenuSchema",
+	kTaxInfo : "_TaxInfoSchema",
+	kToppings : "_ToppingsSchema",
+	kReservation : "_ReservationSchema",
+	kCookingOptions : "_CookingOptionsSchema",
+	kCourse : "_CourseSchema",
+	kUserSale : "_UserSaleSchema",
+	kPrinter : "_PrinterSchema",
+	kNote: "_NoteSchema",
+	kRestaurntInfo : "_RestaurantInfoSchema",
+	kPosDevice : "_PosDevice"
+};
 
 module.exports = OmniSchemas;

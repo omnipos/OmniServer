@@ -29,8 +29,6 @@ var io = require('socket.io').listen(server);
 var IMServer = require('./IMServer');
 var omniserver = new IMServer(io);
 
-// omniserver.initSetup();
-
 io.configure('development', function(){
 	io.set('transports', ['websocket']);
 	io.enable('browser client etag');
