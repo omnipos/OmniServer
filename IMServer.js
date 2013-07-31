@@ -79,7 +79,9 @@ IMServer.prototype.loginUser = function(pin,callback){
 	
 	var userModel = this.schema.getModel(OmniSchema.Entities.kUserInfo);
 	var self = this;
-	userModel.findOne({'loginPin':pin}, function (err, user) {
+	userModel.findOne({'loginPin':pin})
+		.exclude('__v _id kitchens userShifts')
+		.run(function (err, user) {
 		if (!err) 
 			callback(user);
 		else{

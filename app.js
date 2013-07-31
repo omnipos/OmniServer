@@ -286,7 +286,7 @@ io.set('authorization', function (handshakeData, accept) {
 io.sockets.on('connection', function (socket) {
 	var hs = socket.handshake;
 	socket.emit('loginComplete', hs.response);
-	console.log('A socket with sessionID ' + hs.sessionID + ' connected!');
+	LOGGER.debug('A socket with sessionID ' + hs.sessionID + ' connected!');
 	    // setup an inteval that will keep our session fresh
     var intervalID = setInterval(function () {
         // reload the session (just in case something changed,
