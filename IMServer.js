@@ -5,11 +5,12 @@ var SessionManager = require("./sessionManagement");
 var OmniSchema = require("./SetupData/ModelSchemas");
 // http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 var mongoose = require('mongoose');
+var util    = require('util');
 
 function IMServer(ioserver){
 
 	Server = mongo.Server;
-	Db = mongo.Db;
+	// Db = mongo.Db;
     BSON = mongo.BSONPure;
 	
 	// usernames which are currently connected to the chat
@@ -35,7 +36,7 @@ function IMServer(ioserver){
 				else{
 					if(count < 1){
 						populateDBWithDefaultUser.call(that,userModel);	
-					}
+					}					
 				}
 			});
 		}
@@ -47,6 +48,7 @@ function IMServer(ioserver){
 	this.dbConn.on("open",function(){
 		that.logger.info("connected to db");
 		that.initSetup();
+		// Db = mongoose.mongo;
 	});
 	// new Db('omnidb', server);
 	this.shutdown = function(){
@@ -80,8 +82,8 @@ IMServer.prototype.loginUser = function(pin,callback){
 	var userModel = this.schema.getModel(OmniSchema.Entities.kUserInfo);
 	var self = this;
 	userModel.findOne({'loginPin':pin})
-		.exclude('__v _id kitchens userShifts')
-		.run(function (err, user) {
+		.select('__v _id firstName lastName userType kitchens userShifts')
+		.exec(function (err, user) {
 		if (!err) 
 			callback(user);
 		else{
@@ -93,9 +95,17 @@ IMServer.prototype.loginUser = function(pin,callback){
 	
  };
 
+IMServer.prototype.isSuperUser = function(userObj){
+	return (userObj != null && (userObj["userType"] == SessionManager.userRoles.Manager || userObj["userType"] == SessionManager.userRoles.Admin));
+}
+
 IMServer.prototype.isSessionValid = function(sessionID){
-	return this.sessionMgr.getSessionById(sessionID) != null;
+	return this.getSessionObject(sessionID) != null;
 };
+
+IMServer.prototype.getSessionObject = function(sessionID){
+	return this.sessionMgr.getSessionById(sessionID) ;	
+}
 
 
 IMServer.prototype.sessionStart = function(data,sessionID){
@@ -112,7 +122,32 @@ IMServer.prototype.sessionDestroy = function(sessionID){
 };
 
 IMServer.prototype.populateDB = function(data){
-	this.logger.debug(data);
+	
+	var self = this;
+	for (key in data){
+		/*
+		var collectionName = key.toLowerCase();
+		self.dbConn.collection(collectionName, function(error, employee_collection) {
+		    if( error ) 
+				self.logger.error(error);
+		    else 
+				self.logger.info(employee_collection);
+		  });
+		*/
+		var schemaNm = "_"+ key + "Schema";
+		var model = this.schema.getModel(schemaNm);
+		var dataArray = data[key];
+		model.create(dataArray,function(err,obj){
+			if (err) {
+				self.logger.error(err);
+			}
+			else{
+				self.logger.debug(util.format("%d saved",obj.count));
+			}
+		});
+		
+	}
+	// 	this.logger.debug(data);
 };
 
 // Table lock status (true/false)

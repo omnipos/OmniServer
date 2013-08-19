@@ -61,7 +61,7 @@ function OmniSchemas(){
             posDeviceId: String
         });
 
-		var _PrinterSchemachema = new Schema({
+		var _PrinterSchema = new Schema({
             isLocked: Boolean,
             cashDrawerAmount: Number,
             cashDrawerType: String,
@@ -159,7 +159,7 @@ function OmniSchemas(){
 			kitchens:[String],
 			cardSale: Number,	
 			phone: String,	
-			userID: String,	
+			userID: {type : String, unique: true, dropDups: true },	
 			userShifts:[String]
 		});
 
@@ -276,6 +276,15 @@ function OmniSchemas(){
 			childTables:[String]
 		});
 
+		var _MenuSchema = new Schema({
+			isLocked:Boolean,
+			sortOrder:Number,
+			menuID:String,
+			menuName:String,
+			menuName2:String,
+			submenus:[String],
+		});
+
 		var _SubMenuSchema = new Schema({
 			isLocked:Boolean,
 			sortOrder:Number,
@@ -293,7 +302,7 @@ function OmniSchemas(){
 			taxRate:Number
 		});
 
-		var _Toppings = new Schema({
+		var _ToppingsSchema = new Schema({
 			isLocked:Boolean,
 			gst:Number,
 			price:Number,
@@ -382,6 +391,11 @@ function OmniSchemas(){
 						theSchema = _RestaurantTableSchema;
 					
 					}
+					else if(modelName == allSchemas.kMenu){
+						objIdentifier = 'Menu';
+						theSchema = _MenuSchema;
+					
+					}
 					else if(modelName == allSchemas.kSubMenu){
 						objIdentifier = 'SubMenu';
 						theSchema = _SubMenuSchema;
@@ -391,6 +405,10 @@ function OmniSchemas(){
 						objIdentifier = 'TaxInfo';
 						theSchema = _TaxInfoSchema;
 					
+					}
+					else if(modelName = allSchemas.kPrinter){
+						objIdentifier = 'Printer';
+						theSchema = _PrinterSchema;
 					}
 					else if(modelName == allSchemas.kToppings){
 						objIdentifier = 'Toppings';
@@ -451,7 +469,12 @@ OmniSchemas.Entities = {
 	kPrinter : "_PrinterSchema",
 	kNote: "_NoteSchema",
 	kRestaurntInfo : "_RestaurantInfoSchema",
-	kPosDevice : "_PosDevice"
+	kPosDevice : "_PosDeviceSchema",
+	kMenu : "_MenuSchema"
+};
+
+OmniSchemas.EntityMap = {
+	
 };
 
 module.exports = OmniSchemas;

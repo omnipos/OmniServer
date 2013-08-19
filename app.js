@@ -28,11 +28,12 @@ var server = http.createServer(app).listen(3000, function() {
 var io = require('socket.io').listen(server);
 var IMServer = require('./IMServer');
 var omniserver = new IMServer(io);
+var util    = require('util');
 
 io.configure('development', function(){
 	io.set('transports', ['websocket']);
 	io.enable('browser client etag');
-	io.set('log level', 2);
+	io.set('log level', 3);
 });
 LOGGER = io.log;
 
@@ -286,7 +287,7 @@ io.set('authorization', function (handshakeData, accept) {
 io.sockets.on('connection', function (socket) {
 	var hs = socket.handshake;
 	socket.emit('loginComplete', hs.response);
-	LOGGER.debug('A socket with sessionID ' + hs.sessionID + ' connected!');
+	LOGGER.info(util.format("A socket with sessionID %s connected" , hs.sessionID));
 	    // setup an inteval that will keep our session fresh
     var intervalID = setInterval(function () {
         // reload the session (just in case something changed,
@@ -310,8 +311,9 @@ io.sockets.on('connection', function (socket) {
                 LOGGER.error('Error,cannot grab a session '+hs.sessionID, false);
             } else {
 				omniserver.sessionDestroy(hs.sessionID);
-				LOGGER.info("session destroyed "+ hs.session);
 				socket.emit('logoutComplete');
+				LOGGER.info(util.format("session destroyed %s", hs.session));
+				
             }
         });
 		// io.sockets.emit('updatechat', socket.username, data);
@@ -372,15 +374,22 @@ io.sockets.on('connection', function (socket) {
     });
 
 	socket.on('uploadInitData',function(data){
-		
+		var response = {},session = {};
 		var header = data[IMServer.header];
 		var content = data[IMServer.payload];
 		// The client who requested must have session started, so we fetch the user to check his permission, so we are certain he is permitted to upload initial data
-		var user = sessionMgm.getSessionById(header[IMServer.sessionID]);
-		if(user != null && (user["userType"] == userRoles.Manager || user["userType"] == userRoles.Admin)){
+		var user = omniserver.getSessionObject(header[IMServer.sessionID]);
+		if(omniserver.isSuperUser(user)){
 			// let it upload ...
-			 omniserver.populateDB(content);
+			omniserver.populateDB(content);
+			session[IMServer.sessionID] = socket.handshake.sessionID;
+			session[IMServer.statusCode] = IMServer.statusCodes.success;
 		}
+		else{
+			session[IMServer.statusCode] = IMServer.statusCodes.unauthorized;
+		}
+		response[IMServer.header] = session;
+		socket.emit('uploadInitDataComplete', response);
 	});
 
 });
