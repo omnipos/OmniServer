@@ -33,7 +33,7 @@ var util    = require('util');
 io.configure('development', function(){
 	io.set('transports', ['websocket']);
 	io.enable('browser client etag');
-	io.set('log level', 3);
+	io.set('log level', 2);
 });
 LOGGER = io.log;
 

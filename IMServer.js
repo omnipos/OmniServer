@@ -125,8 +125,11 @@ IMServer.prototype.populateDB = function(data){
 	
 	var self = this;
 	for (key in data){
+		
+		// var collectionName = key.toLowerCase();		
 		/*
-		var collectionName = key.toLowerCase();
+		self.logger.debug(util.format("%s %d",collectionName,data[key].length));
+		
 		self.dbConn.collection(collectionName, function(error, employee_collection) {
 		    if( error ) 
 				self.logger.error(error);
@@ -137,14 +140,17 @@ IMServer.prototype.populateDB = function(data){
 		var schemaNm = "_"+ key + "Schema";
 		var model = this.schema.getModel(schemaNm);
 		var dataArray = data[key];
-		model.create(dataArray,function(err,obj){
-			if (err) {
-				self.logger.error(err);
-			}
-			else{
-				self.logger.debug(util.format("%d saved",obj.count));
-			}
-		});
+		(function(colName,modelObj){
+			modelObj.create(dataArray,function(err,obj){
+				if (err) {
+					self.logger.error(err);
+				}
+				else{
+					self.logger.info(util.format("%s saved",colName));
+				}
+			});
+		})(schemaNm,model);
+		
 		
 	}
 	// 	this.logger.debug(data);

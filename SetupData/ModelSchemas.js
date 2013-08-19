@@ -49,7 +49,7 @@ function OmniSchemas(){
 	
 		var _NoteSchema = new Schema({
             isLocked: Boolean,
-            noteId: String,
+            noteId: {type : String, unique: true, dropDups: true },
             noteName: String
         });
 			
@@ -58,7 +58,7 @@ function OmniSchemas(){
             attachedPrinterId: String,
             attachedPrinterName: String,
             deviceName: String,
-            posDeviceId: String
+            posDeviceId: {type : String, unique: true, dropDups: true }
         });
 
 		var _PrinterSchema = new Schema({
@@ -66,7 +66,7 @@ function OmniSchemas(){
             cashDrawerAmount: Number,
             cashDrawerType: String,
             noOfCopies: Number,
-            printerID: String,
+            printerID: {type : String, unique: true, dropDups: true },
             printerIP: String,
             printerName: String,
             printerType: String,
@@ -82,7 +82,7 @@ function OmniSchemas(){
 				productPrice: Number,	
 				productKitchen: String,	
 				color: String,	
-				productID: Number,	
+				productID: {type : Number, unique: true, dropDups: true },	
 				productName2: String,	
 				productTag: Number,	
 				tax_5: Number,	
@@ -111,7 +111,7 @@ function OmniSchemas(){
 			cookingOpName: String,
 			cookingOpName2: String,	
 			isLocked: Boolean,
-			cookingOpId: Number,
+			cookingOpId: {type : Number, unique: true, dropDups: true },
 			sortOrder: Number,
 			products: [String]
 		});
@@ -120,13 +120,13 @@ function OmniSchemas(){
 			isLocked: Boolean,
 			courseName: String,
 			sortOrder: Number,
-			courseId: String
+			courseId: {type : String, unique: true, dropDups: true }
 		});
 
 		var _ReservationSchema = new Schema({
 			noOfGuest: Number,	
 			isLocked: Boolean,	
-			reservationId: String,	
+			reservationId: {type : String, unique: true, dropDups: true },	
 			name: String,	
 			notes: String,	
 			date: Date,	
@@ -139,7 +139,7 @@ function OmniSchemas(){
 			lastName: String,	
 			firstName: String,	
 			phone: Number,	
-			customerId: String,	
+			customerId: {type : String, unique: true, dropDups: true },	
 			email: String,		
 			note: String,	
 			reservations: [String]
@@ -165,7 +165,7 @@ function OmniSchemas(){
 
 		var _SoldItemSchema = new Schema({
 			actualItemId:String,
-			itemId:String,
+			itemId:{type : String, unique: true, dropDups: true },
 			itemName:String,
 			price:Number,
 			qty:Number,
@@ -180,7 +180,7 @@ function OmniSchemas(){
 			saleInfoId:String,
 			tips:Number,
 			userId:String,
-			userSaleId:String,
+			userSaleId:{type : String, unique: true, dropDups: true },
 			voucherSale:Number,
 			userShifts:[String]});
 	
@@ -189,7 +189,7 @@ function OmniSchemas(){
 			clockedOut:Date,
 			duration:Number,
 			isClosed:Boolean,
-			userShiftId:String,
+			userShiftId:{type : String, unique: true, dropDups: true },
 			userInfo:{
 				type:Schema.ObjectId,
 				ref:'_UserInfoSchema'
@@ -201,7 +201,7 @@ function OmniSchemas(){
 			});
 
 		var _SaleInfoSchema = new Schema({
-			saleId: String,
+			saleId: {type : String, unique: true, dropDups: true },
 		    tax4Amt: Number,
 		    totalRefund: Number,
 		    floatAmount: Number,
@@ -234,7 +234,7 @@ function OmniSchemas(){
 
 		var _KitchenSchema = new Schema({
 			isLocked:Boolean,
-			kitchenID:String,
+			kitchenID:{type : String, unique: true, dropDups: true },
 			kitchenName:String,
 			products:[String],
 			users:[String]	
@@ -245,7 +245,7 @@ function OmniSchemas(){
 			gst:Number,
 			price:Number,
 			price2:Number,
-			productOpId:String,
+			productOpId:{type : String, unique: true, dropDups: true },
 			productOpName:String,
 			productOpName2:String,
 			quantity:Number,
@@ -270,7 +270,7 @@ function OmniSchemas(){
 			openedAt:Date,
 			sessionID:String,
 			tabBarService:String,
-			tableId:String,
+			tableId:{type : String, unique: true, dropDups: true },
 			tableName:String,
 			tlBoxIndex:Number,
 			childTables:[String]
@@ -279,7 +279,7 @@ function OmniSchemas(){
 		var _MenuSchema = new Schema({
 			isLocked:Boolean,
 			sortOrder:Number,
-			menuID:String,
+			menuID:{type : String, unique: true, dropDups: true },
 			menuName:String,
 			menuName2:String,
 			submenus:[String],
@@ -288,7 +288,7 @@ function OmniSchemas(){
 		var _SubMenuSchema = new Schema({
 			isLocked:Boolean,
 			sortOrder:Number,
-			subMenuID:String,
+			subMenuID:{type : String, unique: true, dropDups: true },
 			subMenuName:String,
 			subMenuName2:String,
 			menus:[String],
@@ -297,7 +297,7 @@ function OmniSchemas(){
 
 		var _TaxInfoSchema = new Schema({
 			isLocked:Boolean,
-			taxInfoId:String,
+			taxInfoId:{type : String, unique: true, dropDups: true },
 			taxLiteral:String,
 			taxRate:Number
 		});
@@ -314,7 +314,7 @@ function OmniSchemas(){
 			tax_3:Number,
 			tax_4:Number,
 			tax_5:Number,
-			toppingsId:Number,
+			toppingsId:{type : Number, unique: true, dropDups: true },
 			toppingsName:String,
 			toppingsName2:String,
 			products:[String]
@@ -406,7 +406,7 @@ function OmniSchemas(){
 						theSchema = _TaxInfoSchema;
 					
 					}
-					else if(modelName = allSchemas.kPrinter){
+					else if(modelName == allSchemas.kPrinter){
 						objIdentifier = 'Printer';
 						theSchema = _PrinterSchema;
 					}
