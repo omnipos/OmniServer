@@ -60,40 +60,32 @@ app.post(kServiceName, function (req, res) {
 		
 		
 		if(req.headers['user-agent'].match(/CUPS\/1.5.0/i)){
-			
+
 			req.on('data', function (chunk) {
-				var requestUri = 'ipp://MacPro.local:8632/printers/laser';
-				var buff = new Buffer(chunk);
-			   	
-				var ippInstruction = ipp.parse(buff);
-				ippInstruction['operation-attributes-tag']['printer-uri'] = requestUri;
-				if(ippInstruction['operation'] == 'Get-Printer-Attributes')
-					buff = ipp.serialize(ippInstruction); 
-				else
-					console.log(util.format("op = %s, val = %s",ippInstruction['operation'],JSON.stringify(ippInstruction,null,2)));
-					
-				ipp.request(requestUri,buff,function(err, resObject){
-					if(err)
-						return console.log(err);
-					
-					var retBuf = new Buffer(JSON.stringify(resObject,null,2));
-					res.writeHead(200, 
-						{
-							'Content-Type': 'application/ipp',
-							'Content-Length': retBuf.length,
-							'Keep-Alive' : 'timeout=10',
-							'Connection' : 'Keep-Alive',
-						});
-					res.write(retBuf);
-					res.end();    
+				var dataBuf = new Buffer(chunk);
+				var ippUri = "ipp://192.168.2.82:8632/printers/laser";
+				var result = ipp.parse(dataBuf);
+				result["operation-attributes-tag"]["printer-uri"] = ippUri;
+				dataBuf = ipp.serialize(result);
+				// console.log(JSON.stringify(result,null,2));
+				
+				ipp.request(ippUri, dataBuf, function(err, ippResData){
+				    if(err){
+				        return console.log(err);
+				    }
+					res.writeHead(200, {
+						'Content-Type' : 'application/ipp',
+						'Content-Length': dataBuf.length,
+						'Keep-Alive' : 'timeout=10',
+						'Connection' : 'Keep-Alive',
+					});
+					var jsonObj = JSON.stringify(ippResData,null,2)
+					var buf = new Buffer(jsonObj);
+					res.write(buf);
 				    // console.log(JSON.stringify(res,null,2));
 				});
+				
 			  });
-			// console.log(req.body);
-			// var result = ipp.parse(req.body);
-			//  			console.log(JSON.stringify(result,null,2));
-			// response.writeHead(100, { "Content-Type": "continue" });
-			// res.end();
 		}
 		else{
 				res.writeHead(403, {'Content-Type': 'text/plain'});
