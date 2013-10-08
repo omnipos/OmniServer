@@ -45,6 +45,7 @@ createAirprintAdvertisement();
 
 app.all("*", function(request, response, next) {
 	request.setEncoding('utf8');
+	response.sendDate = true;
 	if(request.method == 'POST')
 		next();
 	else{
@@ -59,14 +60,34 @@ app.post(kServiceName, function (req, res) {
 		
 		
 		if(req.headers['user-agent'].match(/CUPS\/1.5.0/i)){
-			// fs.readFile("./index.html", 'utf-8', function (error, data) {
-			// 		        res.writeHead(200, {'Content-Type': 'text/html'});
-			// 		        res.write(data);
-			// 				res.end();
-			// 		    });
-			// res.setEncoding('utf8');
+			
 			req.on('data', function (chunk) {
-			    console.log('BODY: ' + chunk);
+				var requestUri = 'ipp://MacPro.local:8632/printers/laser';
+				var buff = new Buffer(chunk);
+			   	
+				var ippInstruction = ipp.parse(buff);
+				ippInstruction['operation-attributes-tag']['printer-uri'] = requestUri;
+				if(ippInstruction['operation'] == 'Get-Printer-Attributes')
+					buff = ipp.serialize(ippInstruction); 
+				else
+					console.log(util.format("op = %s, val = %s",ippInstruction['operation'],JSON.stringify(ippInstruction,null,2)));
+					
+				ipp.request(requestUri,buff,function(err, resObject){
+					if(err)
+						return console.log(err);
+					
+					var retBuf = new Buffer(JSON.stringify(resObject,null,2));
+					res.writeHead(200, 
+						{
+							'Content-Type': 'application/ipp',
+							'Content-Length': retBuf.length,
+							'Keep-Alive' : 'timeout=10',
+							'Connection' : 'Keep-Alive',
+						});
+					res.write(retBuf);
+					res.end();    
+				    // console.log(JSON.stringify(res,null,2));
+				});
 			  });
 			// console.log(req.body);
 			// var result = ipp.parse(req.body);
