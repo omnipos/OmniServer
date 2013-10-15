@@ -5,8 +5,8 @@ var kPort = 3000,ad,kServiceName = '/printers/myprinter';
 var ipp = require('ipp');
 var app = express();
 http.createServer(app).listen(kPort);
-var home = false;
-var host = home ?  '192.168.1.2' : '192.168.2.240', port = 631;
+var home = true;
+var host = home ?  'localhost' : '192.168.2.240', port = 8632;
 // app.use(express.bodyParser());
 
 var util    = require('util');
@@ -63,15 +63,18 @@ app.all("*", function(request, response, next) {
 app.post(kServiceName, function (req, res) {
 	
 		if(req.headers['user-agent'].match(/CUPS\/1.5.0/i)){
-			var printData = '',printMsg = '';
-			var requestUri = util.format('ipp://%s:%d/printers/laser',host,port);
+			var printData = [],printMsg = '';
+			var requestUri = util.format('ipp://%s:%d/printers/save',host,port);
 			req.on('data', function (chunk) {
+
+			
+				
 				if(req.headers["transfer-encoding"] == "chunked"){
-					printData += chunk;
+					var newchunk = new Buffer(chunk,'base64');
+					printData.push(newchunk);
 				}
 				else{
 						var buff = new Buffer(chunk);
-
 						var ippInstruction = ipp.parse(buff);
 						ippInstruction['operation-attributes-tag']['printer-uri'] = requestUri;
 						// if(ippInstruction['operation'] == 'Get-Printer-Attributes')
@@ -79,13 +82,14 @@ app.post(kServiceName, function (req, res) {
 						// 				else{
 							// Todo : this is deleted as the serializer fails to handle
 						if(typeof ippInstruction['job-attributes-tag'] != 'undefined')
-							delete ippInstruction['job-attributes-tag']['media-col'];
+							delete ippInstruction['job-attributes-tag'];//['media-col'];
 
-						// var str = JSON.stringify(ippInstruction,null,2);
-						console.log(util.format("op = %s",ippInstruction['operation']));
+						var str = JSON.stringify(ippInstruction,null,2);
+						console.log(util.format("op = %s,val = %s",ippInstruction['operation']),str);
 						// }
 						buff = ipp.serialize(ippInstruction); 
 						if(ippInstruction['operation'] == 'Print-Job'){
+							if(["job-attributes-tag"])
 							printMsg = ippInstruction;
 						}
 						else{
@@ -115,17 +119,20 @@ app.post(kServiceName, function (req, res) {
 			  });
 			
 			req.on('end',function(){
-				if(printData)
+				if(printData.length > 0)
 				{
-					// var fileName = path.join('output/', Date.now().toString() + '_' + Math.floor(Math.random() * 100000) + '.pdf');
-					// filesys = fs.createWriteStream(fileName);
-					var buff = new Buffer(printData,'binary');
-					// filesys.write(buff);					
-					// filesys.close();
+					var fileName = path.join('output/', Date.now().toString() + '_' + Math.floor(Math.random() * 100000) + '.pdf');
+					var temp = printData.slice(1);
+					var buff = Buffer.concat(temp);
+					console.log(buff.length);
+					fs.writeFile(fileName, buff, function (err) {
+					  if (err) throw err;
+						  console.log('It\'s saved!');
+					});
 
 					var printer = ipp.Printer(requestUri);
 					printMsg['data'] = buff;
-					console.log(util.format("print msg %s",printMsg));
+					console.log(util.format("print msg %s",JSON.stringify(printMsg,null,2)));
 				
 					printer.execute("Print-Job", printMsg, function(err, execResponse){
 						var retBuf = new Buffer(execResponse);
