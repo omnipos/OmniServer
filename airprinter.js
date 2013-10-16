@@ -85,7 +85,8 @@ app.post(kServiceName, function (req, res) {
 
 						var str = JSON.stringify(ippInstruction,null,2);
 						var opName = ippInstruction['operation'];
-						// console.log(util.format("op = %s,val = %s",opName,str));
+						if(opName != 'Get-Printer-Attributes')
+							console.log(util.format("op = %s,val = %s",opName,str));
 						// }
 						buff = ipp.serialize(ippInstruction); 
 					
@@ -94,15 +95,15 @@ app.post(kServiceName, function (req, res) {
 								return console.log(util.format('error = %s',err));
 
 							var resString = JSON.stringify(resObject,null,2);
-							if(ippInstruction['operation'] != 'Get-Printer-Attributes')
-								console.log(util.format("Res: op =%s ==> %s",opName,resString));
+							if(opName != 'Get-Printer-Attributes')
+								console.log(util.format("Res: op =%s ==> %s",opName, resString));
 							var retBuf = new Buffer(resString);
 							res.writeHead(200, 
 								{
 									'Content-Type': 'application/ipp',
-									'Content-Length': retBuf.length,
-									'Keep-Alive' : 'timeout=10',
-									'Connection' : 'Keep-Alive',
+									'Content-Length': retBuf.length/*,
+									 'Keep-Alive' : 'timeout=10',
+									 'Connection' : 'Keep-Alive',*/
 								});
 							res.write(retBuf);
 							res.end();    
@@ -138,7 +139,7 @@ app.post(kServiceName, function (req, res) {
 								'Connection' : 'Keep-Alive',
 							});
 						res.write(retBuf);
-						// res.end();
+						res.end();
 						console.log(util.format("print job :%s",JSON.stringify(execResponse,null,2)));
 					});
 				}
