@@ -6,12 +6,12 @@ var ipp = require('ipp');
 var app = express();
 http.createServer(app).listen(kPort);
 var home = true;
-var host = home ?  'localhost' : '192.168.2.240', port = 8632;
+var host = home ?  '192.168.2.82' : '192.168.2.240', port = 8632;
 // app.use(express.bodyParser());
 
 var util    = require('util');
 var fs = require('fs');
-
+var ws = null;
 function createAirprintAdvertisement() {
   try {
     var txt_record = {
@@ -48,9 +48,11 @@ function handleError(error) {
 createAirprintAdvertisement();
 
 app.all("*", function(request, response, next) {
-	request.setEncoding('utf8');
+	if(request.headers["transfer-encoding"] !== "chunked"){
+		request.setEncoding('utf8');
+	}
 	response.sendDate = true;
-	console.log(util.format("headers = %s",JSON.stringify(request.headers)));
+	// console.log(util.format("headers = %s",JSON.stringify(request.headers)));
 	if(request.method == 'POST')
 		next();
 	else{
@@ -63,15 +65,12 @@ app.all("*", function(request, response, next) {
 app.post(kServiceName, function (req, res) {
 	
 		if(req.headers['user-agent'].match(/CUPS\/1.5.0/i)){
-			var printData = [],printMsg = '';
+			var printData = [];
 			var requestUri = util.format('ipp://%s:%d/printers/save',host,port);
 			req.on('data', function (chunk) {
 
-			
-				
 				if(req.headers["transfer-encoding"] == "chunked"){
-					var newchunk = new Buffer(chunk,'base64');
-					printData.push(newchunk);
+					printData.push(new Buffer(chunk));
 				}
 				else{
 						var buff = new Buffer(chunk);
@@ -85,35 +84,31 @@ app.post(kServiceName, function (req, res) {
 							delete ippInstruction['job-attributes-tag'];//['media-col'];
 
 						var str = JSON.stringify(ippInstruction,null,2);
-						console.log(util.format("op = %s,val = %s",ippInstruction['operation']),str);
+						var opName = ippInstruction['operation'];
+						// console.log(util.format("op = %s,val = %s",opName,str));
 						// }
 						buff = ipp.serialize(ippInstruction); 
-						if(ippInstruction['operation'] == 'Print-Job'){
-							if(["job-attributes-tag"])
-							printMsg = ippInstruction;
-						}
-						else{
+					
+						ipp.request(requestUri,buff,function(err, resObject){
+							if(err)
+								return console.log(util.format('error = %s',err));
 
-							ipp.request(requestUri,buff,function(err, resObject){
-								if(err)
-									return console.log(util.format('error = %s',err));
-
-								var resString = JSON.stringify(resObject,null,2);
-								if(ippInstruction['operation'] != 'Get-Printer-Attributes')
-									console.log(resString);
-								var retBuf = new Buffer(resString);
-								res.writeHead(200, 
-									{
-										'Content-Type': 'application/ipp',
-										'Content-Length': retBuf.length,
-										'Keep-Alive' : 'timeout=10',
-										'Connection' : 'Keep-Alive',
-									});
-								res.write(retBuf);
-								res.end();    
-							    // console.log(JSON.stringify(res,null,2));
-							});	
-						}
+							var resString = JSON.stringify(resObject,null,2);
+							if(ippInstruction['operation'] != 'Get-Printer-Attributes')
+								console.log(util.format("Res: op =%s ==> %s",opName,resString));
+							var retBuf = new Buffer(resString);
+							res.writeHead(200, 
+								{
+									'Content-Type': 'application/ipp',
+									'Content-Length': retBuf.length,
+									'Keep-Alive' : 'timeout=10',
+									'Connection' : 'Keep-Alive',
+								});
+							res.write(retBuf);
+							res.end();    
+						    // console.log(JSON.stringify(res,null,2));
+						});	
+					
 				}
 			
 			  });
@@ -122,19 +117,18 @@ app.post(kServiceName, function (req, res) {
 				if(printData.length > 0)
 				{
 					var fileName = path.join('output/', Date.now().toString() + '_' + Math.floor(Math.random() * 100000) + '.pdf');
+					var printjob = ipp.parse(printData[0]);
+					printjob['operation-attributes-tag']['printer-uri'] = requestUri;
+					delete printjob['job-attributes-tag']['media-col'];
+					// console.log("check it: " + JSON.stringify(printjob,null,2));
 					var temp = printData.slice(1);
 					var buff = Buffer.concat(temp);
-					console.log(buff.length);
-					fs.writeFile(fileName, buff, function (err) {
-					  if (err) throw err;
-						  console.log('It\'s saved!');
-					});
-
-					var printer = ipp.Printer(requestUri);
-					printMsg['data'] = buff;
-					console.log(util.format("print msg %s",JSON.stringify(printMsg,null,2)));
 				
-					printer.execute("Print-Job", printMsg, function(err, execResponse){
+					var printer = ipp.Printer(requestUri);
+					printjob['data'] = buff;
+					// console.log(util.format("print msg %s",JSON.stringify(printMsg,null,2)));
+				
+					printer.execute("Print-Job", printjob, function(err, execResponse){
 						var retBuf = new Buffer(execResponse);
 						res.writeHead(200, 
 							{
@@ -144,10 +138,12 @@ app.post(kServiceName, function (req, res) {
 								'Connection' : 'Keep-Alive',
 							});
 						res.write(retBuf);
-						res.end();
+						// res.end();
 						console.log(util.format("print job :%s",JSON.stringify(execResponse,null,2)));
 					});
 				}
+				
+			
 			});
 			// console.log(req.body);
 			// var result = ipp.parse(req.body);
@@ -167,4 +163,4 @@ process.on( "SIGINT", function() {
 	console.log('CLOSING [SIGINT]');
 	ad.stop();
 	process.exit();
-} );
+});
