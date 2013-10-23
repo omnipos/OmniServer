@@ -5,8 +5,8 @@ var kPort = 3000,ad,kServiceName = '/printers/myprinter';
 var ipp = require('ipp');
 var app = express();
 http.createServer(app).listen(kPort);
-var home = true;
-var host = home ?  '192.168.2.82' : '192.168.2.240', port = 8632;
+var home = false;
+var host = home ?  '192.168.2.82' : '192.168.2.240', port = home ? 8632 : 631;
 // app.use(express.bodyParser());
 var winston = require('winston');
 var util    = require('util');
@@ -37,8 +37,8 @@ var config = {
 
 var logger = new (winston.Logger)({
     transports: [
-      // new (winston.transports.Console)({level:'silly',colorize: true}),
-      new (winston.transports.File)({ filename: 'somefile.log' ,timestamp:false, json:false, level:'silly', colorize: true})
+      new (winston.transports.Console)({level:'silly',colorize: true}),
+      // new (winston.transports.File)({ filename: 'somefile.log' ,timestamp:false, json:false, level:'silly', colorize: true})
     ],
 	levels: config.levels,
 	colors: config.colors
@@ -98,7 +98,7 @@ app.post(kServiceName, function (req, res) {
 	
 		if(req.headers['user-agent'].match(/CUPS\/1.5.0/i)){
 			var printData = [];
-			var requestUri = util.format('ipp://%s:%d/printers/save',host,port);
+			var requestUri = home ? util.format('ipp://%s:%d/printers/save',host,port) : util.format('ipp://%s:%d',host,port);
 			req.on('data', function (chunk) {
 				printData.push(new Buffer(chunk));
 			  });
@@ -108,7 +108,8 @@ app.post(kServiceName, function (req, res) {
 				{
 					var printjob = ipp.parse(printData.shift());
 					printjob['operation-attributes-tag']['printer-uri'] = requestUri;
-					// delete printjob['job-attributes-tag']['media-col'];
+					if(typeof printjob['job-attributes-tag'] !== 'undefined')
+						delete printjob['job-attributes-tag']['media-col'];
 					var buff = Buffer.concat(printData);
 					logger.log('silly','print job ==> %s',JSON.stringify(printjob,null,2));
 					
